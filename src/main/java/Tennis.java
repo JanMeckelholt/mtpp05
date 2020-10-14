@@ -1,23 +1,36 @@
 public class Tennis{
 
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
     private final Player player1;
     private final Player player2;
 
     public Tennis(String namePlayer1, String namePlayer2) {
+        if (namePlayer1 == null || namePlayer2 == null)
+            throw new IllegalArgumentException("Für ein Spiel werden zwei Spieler benötigt");
+        if (namePlayer1.length()==0 || namePlayer1.length()>100)
+            throw new IllegalArgumentException("Name muss zwischen 1 und 100 Zeichen sein.");
+        if (namePlayer2.length()==0 || namePlayer2.length()>100)
+            throw new IllegalArgumentException("Name muss zwischen 1 und 100 Zeichen sein.");
         this.player1 = new Player(namePlayer1, 0);
         this.player2 = new Player(namePlayer2, 0);
     }
 
     public String getScore() {
-        Player leadingPlayer;
-        if (GameStatus.deuce(player1.getPoints(), player2.getPoints()))
-            return "Deuce";
-        if (GameStatus.max3Points(player1.getPoints(), player2.getPoints()))
-            return scoreExpression(player1, player2);
-        leadingPlayer = getLeader(player1, player2);
-        if (GameStatus.ended(player1.getPoints(), player2.getPoints()))
-            return "Win for " + leadingPlayer.getName();
-        return "Advantage " + leadingPlayer.getName();
+        if (player1.getPoints()<4 && player2.getPoints()<4){
+            if (player1.getPoints()==3 && player2.getPoints()==3){
+                return "Deuce";
+            }
+            else return scoreExpression(player1, player2);
+        } else if (player1.getPoints()-player2.getPoints()<2){
+            return "Advantage " + getLeader(player1, player2).getName();
+        } else return "Win for "+ getLeader(player1, player2).getName();
     }
 
     public void wonPoint(String playerName) {
@@ -25,7 +38,6 @@ public class Tennis{
             player1.incrementPoints();
         if (playerName.equals(player2.getName()))
             player2.incrementPoints();
-        //adf
     }
 
     private String scoreExpression(Player player1, Player player2) {
@@ -79,6 +91,9 @@ final class GameStatus {
     }
 
     public static boolean ended(int pointsPlayer1, int pointsPlayer2){
+        if (pointsPlayer1<0 || pointsPlayer2<0)
+            throw new IllegalArgumentException("Punkte dürfen nicht negativ sein.");
+
         int higherPoints = Integer.max(pointsPlayer1, pointsPlayer2);
         int lowerPoints = Integer.min(pointsPlayer1, pointsPlayer2);
         return (higherPoints - lowerPoints) > 1 && (higherPoints>3);
