@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class TennisTest {
-
     @Test
     public void TestTennisConstructor() {
         Tennis validGame = new Tennis("Ernst Kuzorra", "Stan Libuda");
@@ -19,7 +18,6 @@ public class TennisTest {
         Assertions.assertEquals(validGameMinNameLength.getPlayer1().getName(), "a");
         Assertions.assertEquals(validGameMinNameLength.getPlayer2().getName(), "b");
 
-
         Assertions.assertThrows(IllegalArgumentException.class, ()-> new Tennis("Ernst Kuzorra", ""));
         Assertions.assertThrows(IllegalArgumentException.class, ()-> new Tennis("", "Stan Libuda"));
         Assertions.assertThrows(IllegalArgumentException.class, ()-> new Tennis("Ernst Kuzorra", "a".repeat(101)));
@@ -27,7 +25,6 @@ public class TennisTest {
         Assertions.assertThrows(IllegalArgumentException.class, ()-> new Tennis("Ernst Kuzorra", null));
         Assertions.assertThrows(IllegalArgumentException.class, ()-> new Tennis(null, "Stan Libuda"));
     }
-
     @Test
     public void TestEnded(){
         //Game did not end
@@ -39,7 +36,7 @@ public class TennisTest {
         Assertions.assertFalse(GameStatus.ended(0, 0));
         //Grenzfall >=2 Punkte Vorsprung aber weniger als 4 Punkte
         Assertions.assertFalse(GameStatus.ended(3, 1));
-
+        Assertions.assertFalse(GameStatus.ended(0, 3));
 
         //Game did end
         Assertions.assertTrue(GameStatus.ended(5, 3));
@@ -48,11 +45,9 @@ public class TennisTest {
         Assertions.assertTrue(GameStatus.ended(4, 0));
         Assertions.assertTrue(GameStatus.ended(0, 4));
 
-
         Assertions.assertThrows(IllegalArgumentException.class, ()-> GameStatus.ended(-2, 2));
         Assertions.assertThrows(IllegalArgumentException.class, ()-> GameStatus.ended(2, -2));
 
         // Values out of Integer-Range or Null do not compile.
-
     }
 }

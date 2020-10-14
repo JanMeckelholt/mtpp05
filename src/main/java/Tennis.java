@@ -13,11 +13,11 @@ public class Tennis{
 
     public Tennis(String namePlayer1, String namePlayer2) {
         if (namePlayer1 == null || namePlayer2 == null)
-            throw new IllegalArgumentException("Für ein Spiel werden zwei Spieler benötigt");
+            throw new IllegalArgumentException("2 Player are needed for one game");
         if (namePlayer1.length()==0 || namePlayer1.length()>100)
-            throw new IllegalArgumentException("Name muss zwischen 1 und 100 Zeichen sein.");
+            throw new IllegalArgumentException("Name length for first Player has to be between 1 and 100 characters.");
         if (namePlayer2.length()==0 || namePlayer2.length()>100)
-            throw new IllegalArgumentException("Name muss zwischen 1 und 100 Zeichen sein.");
+            throw new IllegalArgumentException("Name length for second Player has to be between 1 and 100 characters.");
         this.player1 = new Player(namePlayer1, 0);
         this.player2 = new Player(namePlayer2, 0);
     }
